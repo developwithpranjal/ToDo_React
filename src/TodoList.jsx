@@ -1,54 +1,70 @@
 import React, { useState } from "react";
 import { MdDelete } from "react-icons/md";
-import { MdEdit } from "react-icons/md";
-import { FaCheck } from "react-icons/fa";
-
-function TodoList() {
-  const [inp, setinput] = useState("");
-  const [task, setTask] = useState([]);
-  const [isEditing, setEditing] = useState(false);
+import { FaPencil } from "react-icons/fa6";
+const TodoList = () => {
+  const [inp, setInput] = useState("");
+  const [Tasks, SetTasks] = useState([]);
+  const [IsEdit, setIsEdit] = useState(false);
+  const [EditId, setEditId] = useState(null);
 
   function addTask() {
-    const obj = { id: Date.now(), tasks: inp };
-
-    setTask([...task, obj]);
-    setinput("");
+    if (!IsEdit) {
+      const obj = { id: Date.now(), task: inp };
+      SetTasks([...Tasks, obj]);
+    } else {
+      SetTasks(
+        Tasks.map((obj) => {
+          return obj.id == EditId ? { ...obj, task: inp } : inp;
+        }),
+      );
+    }
+    setIsEdit(false);
+    setEditId(null);
+    setInput("");
   }
   function DeleteTask(id) {
-    setTask(task.filter((obj) => obj.id !== id));
+    SetTasks(
+      Tasks.filter((obj) => {
+        return obj.id !== id;
+      }),
+    );
   }
-
-  function Editing(id) {
-    const editList =task.find((obj) => obj.id === id);
-    setinput(editList.tasks)
-    setEditing(true)
+  function EditTask(id) {
+    const Editing = Tasks.find((obj) => {
+      return obj.id == id;
+    });
+    setInput(Editing.task);
+    setIsEdit(true);
+    setEditId(id);
   }
 
   return (
     <>
       <div>
+         <h1>ToDo List</h1>
         <input
-          onChange={(e) => setinput(e.target.value)}
-          type="text"
+          onChange={(e) => setInput(e.target.value)}
           value={inp}
-          placeholder="Enter the text"
+          type="text"
+          placeholder="Enter Your Text"
         />
-        <button onClick={addTask}>{isEditing?"Edit Task":"Add Task"}</button>
+        <button onClick={addTask}> {!IsEdit ? "Add Task" : "Edit Task"}</button>
       </div>
       <ul>
-        {task.map((obj) => {
+        {Tasks.map((obj) => {
           return (
             <li>
-              <span>{obj.tasks}</span>
-              <MdDelete onClick={() => DeleteTask(obj.id)} />
-              <MdEdit onClick={() => Editing(obj.id)} />
-              <FaCheck />
+              {obj.task}{" "}
+              <span>
+                <MdDelete onClick={(e) => DeleteTask(obj.id)} />
+                <FaPencil onClick={(e) => EditTask(obj.id)} />
+              </span>
             </li>
           );
         })}
       </ul>
     </>
   );
-}
+};
 
 export default TodoList;
