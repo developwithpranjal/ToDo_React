@@ -1,0 +1,32 @@
+h1 {
+  color: rgb(255, 0, 0);
+}
+input {
+  padding: 8px 60px;
+  border-radius: 10px;
+  border: 3px solid rgb(142, 211, 5);
+  outline: none;
+}
+button {
+  margin-left: 20px;
+  padding: 0.5rem 0.8rem;
+  border-radius: 10px;
+  border-style: none;
+  background-color: rgb(3, 3, 84);
+  color: white;
+  cursor: pointer;
+}
+button:hover {
+  background-color: rgb(10, 25, 188);
+}
+li {
+  font-size: 20px;
+  font-weight: bold;
+  align-items: center;
+}
+.del {
+  color: green;
+}
+.edit {
+  color: red;
+}

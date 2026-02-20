@@ -14,7 +14,7 @@ const TodoList = () => {
     } else {
       SetTasks(
         Tasks.map((obj) => {
-          return obj.id == EditId ? { ...obj, task: inp } : inp;
+          return obj.id === EditId ? { ...obj, task: inp } : obj;
         }),
       );
     }
@@ -41,7 +41,7 @@ const TodoList = () => {
   return (
     <>
       <div>
-         <h1>ToDo List</h1>
+        <h1>ToDo List</h1>
         <input
           onChange={(e) => setInput(e.target.value)}
           value={inp}
@@ -55,8 +55,11 @@ const TodoList = () => {
           return (
             <li>
               {obj.task}{" "}
-              <span>
+              <span className="del">
                 <MdDelete onClick={(e) => DeleteTask(obj.id)} />
+              </span>
+              <span className="edit">
+                {" "}
                 <FaPencil onClick={(e) => EditTask(obj.id)} />
               </span>
             </li>
