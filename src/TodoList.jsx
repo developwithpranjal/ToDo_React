@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaPencil } from "react-icons/fa6";
+import { FaRegCheckCircle } from "react-icons/fa";
+
 const TodoList = () => {
   const [inp, setInput] = useState("");
   const [Tasks, SetTasks] = useState([]);
@@ -22,22 +24,31 @@ const TodoList = () => {
     setEditId(null);
     setInput("");
   }
-  function DeleteTask(id) {
+  function DeleteTask(IdToDelete) {
     SetTasks(
       Tasks.filter((obj) => {
-        return obj.id !== id;
+        return obj.id !== IdToDelete;
       }),
     );
   }
-  function EditTask(id) {
+  function EditTask(IdToEdit) {
     const Editing = Tasks.find((obj) => {
-      return obj.id == id;
+      return obj.id == IdToEdit;
     });
     setInput(Editing.task);
     setIsEdit(true);
-    setEditId(id);
+    setEditId(IdToEdit);
   }
-
+  function CheckMarktask(IdToCheck) {
+    SetTasks(
+      Tasks.map((obj) => {
+        return obj.id == IdToCheck
+          ? { ...obj, Complete: obj.Complete ? false : true }
+          : obj;
+      }),
+    );
+    setIsEdit(false);
+  }
   return (
     <>
       <div>
@@ -53,14 +64,30 @@ const TodoList = () => {
       <ul>
         {Tasks.map((obj) => {
           return (
-            <li>
+            <li
+              key={obj.id}
+              style={
+                obj.Complete
+                  ? { opacity: 0.5, textDecoration: "line-Through" }
+                  : { opacity: 1, textDecoration: "none" }
+              }
+            >
               {obj.task}{" "}
-              <span className="del">
-                <MdDelete onClick={(e) => DeleteTask(obj.id)} />
-              </span>
               <span className="edit">
                 {" "}
                 <FaPencil onClick={(e) => EditTask(obj.id)} />
+              </span>
+              <span className="del">
+                <MdDelete onClick={(e) => DeleteTask(obj.id)} />
+              </span>
+              <span>
+                <FaRegCheckCircle
+                  onClick={(e) => CheckMarktask(obj.id)}
+                  style={{
+                    color: obj.Complete ? "green" : "grey",
+                    cursor: "pointer",
+                  }}
+                />
               </span>
             </li>
           );

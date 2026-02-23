@@ -25,8 +25,11 @@ li {
   align-items: center;
 }
 .del {
-  color: green;
+  color: blue;
 }
 .edit {
   color: red;
+}
+span{
+  display: ;
 }
